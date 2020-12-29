@@ -14,7 +14,7 @@ export default class MyReceivedBooksScreen extends Component{
     }
   this.requestRef= null
   }
-
+ 
   getReceivedBooksList =()=>{
     this.requestRef = db.collection("requested_books")
     .where('user_id','==',this.state.userId)
