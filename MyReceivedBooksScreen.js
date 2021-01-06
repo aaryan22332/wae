@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList,TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text,Image, FlatList,TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import firebase from 'firebase';
 import db from '../config'
 import MyHeader from '../components/MyHeader';
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class MyReceivedBooksScreen extends Component{
   constructor(){
@@ -14,7 +15,7 @@ export default class MyReceivedBooksScreen extends Component{
     }
   this.requestRef= null
   }
- 
+
   getReceivedBooksList =()=>{
     this.requestRef = db.collection("requested_books")
     .where('user_id','==',this.state.userId)
@@ -38,13 +39,20 @@ export default class MyReceivedBooksScreen extends Component{
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ( {item, i} ) =>{
-    console.log(item.book_name);
     return (
       <ListItem
         key={i}
         title={item.book_name}
         subtitle={item.bookStatus}
-        titleStyle={{ color: 'black', fontWeight: 'bold' }}
+        leftElement={
+          <Image
+            style={styles.LiImage}
+            source={{
+              uri: item.image_link,
+            }}
+            />
+          }
+        titleStyle={styles.titlestyle}
         bottomDivider
       />
     )
@@ -94,5 +102,15 @@ const styles = StyleSheet.create({
        width: 0,
        height: 8
      }
-  }
+  },
+  LiImage:{
+    height:RFValue(50),
+    width:RFValue(50)
+  },
+  titlestyle:
+  {
+  color: 'black',
+  fontWeight: 'bold'
+},
+
 })
